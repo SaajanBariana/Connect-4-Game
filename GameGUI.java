@@ -63,13 +63,10 @@ public class GameGUI extends JFrame {
 				//grid.getChildren().add(e);
 			}
 		}
+		//line 1 test
 		primaryStage.setScene(scene);
 		primaryStage.show();*/
 
 	}
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/master
