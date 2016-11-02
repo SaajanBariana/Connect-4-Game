@@ -68,4 +68,8 @@ public class GameGUI extends JFrame {
 
 	}
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/master
