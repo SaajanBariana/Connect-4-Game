@@ -1,9 +1,13 @@
 package ConnectFourGame;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -23,32 +27,59 @@ public class GameGUI extends Application
 	 }
 	 private Parent createContent()
 	 {
-		 Pane root = new Pane();
-		 
+		 Pane root = new GridPane();						//Refers to the scene which uses grid
 		 Shape gridShape = makeGrid();
-		 root.getChildren().add(gridShape);
+		 root.getChildren().add(gridShape);					//Draws the board
+		 root.getChildren().addAll(makeColumns());			//Draws the data in the columns
 		 return root;
 	 }
 	 
 	 private Shape makeGrid(){
-		 Shape shape = new Rectangle((6+1)*80,(6+1)*80);
 		 Observer o = Observer.getObserver();
-		 for(int i = 0; i< 6; i++)
-		 {
-			 for(int j = 0; j<6;j++)
+		 // makes the grid
+			 Shape shape = new Rectangle((6+1)*80,(6+1)*80);	//Creates the screen of the game
+			 
+			 for(int i = 0; i< 6; i++)							//For each row
 			 {
-				 Circle circle = new Circle(80/2, 80/2, 80/2);
-				 circle.setTranslateX(j*(80+5)+80/4);
-				 circle.setTranslateY(i*(80+5)+80/4);
-				 
-				 shape = shape.subtract(shape, circle);
-				 
+				 for(int j = 0; j<6;j++)						//For each column
+				 {
+					 //Creates the circle
+					 Circle circle = new Circle(80/2, 80/2, 80/2);
+					 circle.setTranslateX(j*(80+5)+80/4);
+					 circle.setTranslateY(i*(80+5)+80/4);
+					 
+					 //Cuts out a circle from the present shape
+					 shape = shape.subtract(shape, circle);
+					 
+				 }
 			 }
-		 }
-		 shape.setFill(Color.BLUE);
-		 return shape;
+			 
+			 shape.setFill(Color.BLUE);							//Changes color of shape 
+			 return shape;
+		 
 	 }
-
+	 
+	 // makes the columns
+	 private List<Rectangle> makeColumns()
+	 {
+		 List<Rectangle> list = new ArrayList<>();
+		 for(int i=0; i<6;i++)
+		 {
+			 Rectangle rect = new Rectangle(80,(6+1)*80);
+			 rect.setTranslateX(i*(80+5)+ 80/4);
+			 rect.setFill(Color.TRANSPARENT);
+			 rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(200, 200, 50,0.3)));
+			 rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
+			 rect.setOnMouseClicked(e -> playPiece());
+			 list.add(rect);
+		 }
+		 return list;
+	 }
+	 
+	 private void playPiece()
+	 {
+		 
+	 }
 	//@Override
 	 public void start(Stage stage) throws Exception  
 	 {
