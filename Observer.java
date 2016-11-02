@@ -10,13 +10,14 @@ import javafx.scene.shape.Rectangle;
  *
  */
 public class Observer {
-	GameGUI game = GameGUI.getGUI();
+	GameGUI game = new GameGUI();
 	Player player1;
 	Player player2;
+	static Observer o = new Observer();
 	/**
 	 * initializes the Observer class to set up two players and their colors. 
 	 */
-	public Observer() 
+	private Observer() 
 	{
 		
 		player1 = new Player("Player 1", Color.RED, true);
@@ -44,6 +45,11 @@ public class Observer {
 			player1.setTurn(true);
 		}
 		return info;
+	}
+	
+	public static Observer getObserver()
+	{
+		return o;
 	}
 	/**
 	 * used the get the board pieces and will send them to the GUI to create the game board
