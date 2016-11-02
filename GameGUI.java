@@ -13,7 +13,7 @@ public class GameGUI extends JFrame {
 	int count;
 	static GameGUI game;
 	Observer observer;
-
+	//Jeff's Test
 	public GameGUI() {
 		// TODO Auto-generated constructor stub
 		observer = new Observer();
