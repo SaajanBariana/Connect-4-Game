@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.ColorModel;
 
 public class BoardPiece extends JPanel {
-	
+	// hello
 	public Graphics g;
 	public Color c;
 	
