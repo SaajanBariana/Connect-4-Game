@@ -1,64 +1,44 @@
-package ConnectFourGame;
-
-import java.awt.*;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
+import javafx.application.Application;
+import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
-public class GameGUI extends JFrame {
-	int size;
-	int count;
-	static GameGUI game;
-	Observer observer;
+public class GameGUI extends Application {
 
-	public GameGUI() {
-		// TODO Auto-generated constructor stub
-		observer = new Observer();
-		showGUI();
-		//size = s;
-		//count = c;
-		
-		
+	public static void main(String[] args) {
+		Application.launch(args);
 	}
-	
-	public static GameGUI getGUI()
-	{
-		return game;
-	}
-	public void showGUI()
-	{
-		JFrame theFrame = new JFrame("Connect 4 Game");
-		theFrame.setSize(2000, 1000);
-		theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		theFrame.setLayout(new BorderLayout());
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(size + 1, size));
-		GridPane g = new GridPane();
-		for (int i = 0; i < 5; i++)
-		{
-			for (int j = 0; j < 5; j++)
-			{
-				g.add(observer.getPieces(i, j), j, i);
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setTitle("");
+		GridPane grid = new GridPane();
+		Scene scene = new Scene(grid, 500, 500);
+
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				BoardPiece piece = new BoardPiece(i, j);
+				
+				Rectangle rect = piece.getRectangle();	//reference to rectangle
+				GridPane.setRowIndex(rect, i);
+				GridPane.setColumnIndex(rect, j);
+				
+				Ellipse e = piece.getEllipse();			//reference to ellipse
+				GridPane.setRowIndex(e, i);
+				GridPane.setColumnIndex(e, j);
+				
+				piece.setColor(Color.RED);
+				
+				grid.getChildren().add(rect);
+				grid.getChildren().add(e);
 			}
 		}
-		
-		//panel.add(new Rectangle(5, 5));
-		//BoardPiece b = new BoardPiece();
-		
-		//System.out.println(b.getColorOfCircle());	
-		//b.paintComponent(Color.RED);
-		//panel.add(b);
-			
-		
-		theFrame.add(panel);
-		
-		
-		theFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		theFrame.setVisible(true);
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
 	}
 
 }
