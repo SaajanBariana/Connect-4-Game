@@ -1,4 +1,3 @@
-package ConnectFourGame;
 
 import javafx.scene.shape.Rectangle;
 

@@ -1,19 +1,21 @@
-package ConnectFourGame;
-
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 public class BoardPiece {
 
 	int row;
 	int column;
 	Ellipse ellipse;
+	
+	BoardPiece N;
+	BoardPiece NE;
+	BoardPiece E;
+	BoardPiece SE;
+	BoardPiece S;
+	BoardPiece SW;
+	BoardPiece W;
+	BoardPiece NW;
 
 	public BoardPiece(int row, int column) {
 		this.row = row;
