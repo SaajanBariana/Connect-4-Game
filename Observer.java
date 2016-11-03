@@ -15,6 +15,9 @@ public class Observer {
 	Player player1;
 	Player player2;
 	static Observer o = new Observer();
+	private int size;
+	private int numberOfPieces;
+	private int boardPieceSize = 80;
 	/**
 	 * initializes the Observer class to set up two players and their colors. 
 	 */
@@ -25,6 +28,30 @@ public class Observer {
 		player2 = new Player("Player 2", Color.BLUE, false);
 	}
 	
+	public void setSize(int size)
+	{
+		this.size = size;
+	}
+	
+	public void setPiecesNumber(int pieces)
+	{
+		numberOfPieces = pieces;
+	}
+	
+	public int getSize()
+	{
+		return size;
+	}
+	
+	public int getPieceCount()
+	{
+		return numberOfPieces;
+	}
+	
+	public int getPieceSize()
+	{
+		return boardPieceSize;
+	}
 	/**
 	 * used to send information about the current player to the GUI to choose the correct color and name
 	 * @return returns an array. Index 0 is the player's name. Index 1 is the player's color

@@ -21,19 +21,21 @@ import javafx.stage.Stage;
 public class GameGUI extends Application
 {	
 	 public static void main(String[] args) {
+		 int size = Integer.parseInt(args[0]);
+		 int numberOfPieces = Integer.parseInt(args[1]);
+		 
+		 Observer.o.setSize(size);
+		 Observer.o.setPiecesNumber(numberOfPieces);
 	        Application.launch(args);
 	    }
-	 public GameGUI()
-	 {
-		 
-	 }
+
+	 
 	 private Parent createContent()
 	 {
-		 int size = 6;
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
-		 Shape gridShape = makeGrid(size);
+		 Shape gridShape = makeGrid(Observer.o.getSize());
 		 root.getChildren().add(gridShape);					//Draws the board
-		 BoardPiece[][] board = setUpPieces(size);
+		 BoardPiece[][] board = setUpPieces(Observer.o.getSize());
 		 for (int i= 0; i < board.length; i++)
 		 {
 			 VBox v = new VBox(5);
@@ -44,22 +46,23 @@ public class GameGUI extends Application
 			 }
 			 root.getChildren().add(v);
 		 }
-		 root.getChildren().addAll(makeColumns(size, board));			//Draws the data in the columns
+		 root.getChildren().addAll(makeColumns(Observer.o.getSize(), board));			//Draws the data in the columns
 		 return root;
 	 }
 	 
+	 
 	 private Shape makeGrid(int size){
 		 // makes the grid
-			 Shape shape = new Rectangle((6+1)*80,(6+1)*80);	//Creates the screen of the game
+			 Shape shape = new Rectangle((size+1)*80,(size+1)*80);	//Creates the screen of the game
 			 
 			 for(int i = 0; i< size; i++)							//For each row
 			 {
 				 for(int j = 0; j<size;j++)						//For each column
 				 {
 					 //Creates the circle
-					 Circle circle = new Circle(80/2, 80/2, 80/2);
-					 circle.setTranslateX(j*(80+5)+80/4);
-					 circle.setTranslateY(i*(80+5)+80/4);
+					 Circle circle = new Circle(Observer.o.getPieceSize()/2, Observer.o.getPieceSize()/2, Observer.o.getPieceSize()/2);
+					 circle.setTranslateX(j*(Observer.o.getPieceSize()+5)+Observer.o.getPieceSize()/4);
+					 circle.setTranslateY(i*(Observer.o.getPieceSize()+5)+Observer.o.getPieceSize()/4);
 					 
 					 //Cuts out a circle from the present shape
 					 shape = shape.subtract(shape, circle);
@@ -68,8 +71,7 @@ public class GameGUI extends Application
 			 }
 			 
 			 shape.setFill(Color.BLUE);							//Changes color of shape 
-			 return shape;
-		 
+			 return shape;	 
 	 }
 	 
 	 public BoardPiece[][] setUpPieces(int size)
@@ -93,8 +95,8 @@ public class GameGUI extends Application
 		 List<Rectangle> list = new ArrayList<>();
 		 for(int i=0; i<size;i++)
 		 {
-			 RectangleSubclass rect = new RectangleSubclass(80,560, i);
-			 rect.setTranslateX(i*(80+5)+ 80/4);
+			 RectangleSubclass rect = new RectangleSubclass(Observer.o.getPieceSize(),7*Observer.o.getPieceSize(), i);
+			 rect.setTranslateX(i*(Observer.o.getPieceSize()+5)+ Observer.o.getPieceSize()/4);
 			 rect.setFill(Color.TRANSPARENT);
 			 rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(200, 200, 50,0.3)));
 			 rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
@@ -149,17 +151,12 @@ public class GameGUI extends Application
 		
 		}
 	 }
-	//@Override
+
+	 //@Override
 	 public void start(Stage stage) throws Exception  
 	 {
 		stage.setScene(new Scene(createContent()));
+		stage.setTitle("Connect4");
 		stage.show();
 	 }
 }
-
-
-
-
-
-
-
