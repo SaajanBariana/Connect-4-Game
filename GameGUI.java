@@ -24,7 +24,12 @@ import javafx.stage.Stage;
 public class GameGUI extends Application
 {	
 	 public static void main(String[] args) {
-	        Application.launch(args);
+		 int size = Integer.parseInt(args[0]);
+		 int numberOfPieces = Integer.parseInt(args[1]);
+		 
+		 Observer.o.setSize(size);
+		 Observer.o.setPiecesNumber(numberOfPieces);
+	     Application.launch(args);
 	    }
 	 public GameGUI()
 	 {
@@ -69,10 +74,12 @@ public class GameGUI extends Application
 				 for(int j = 0; j<size;j++)						//For each column
 				 {
 					 //Creates the circle
-					 Circle circle = new Circle(80/2, 80/2, 80/2);
-					 circle.setTranslateX(j*(80+5)+80/4);
-					 circle.setTranslateY(i*(80+5)+80/4);
+					 Circle circle = new Circle(Observer.o.getPieceSize()/2, Observer.o.getPieceSize()/2, Observer.o.getPieceSize()/2);
 					 
+					 circle.setTranslateX(j*(Observer.o.getPieceSize()+5)+Observer.o.getPieceSize()/4);
+					 
+					 circle.setTranslateY(i*(Observer.o.getPieceSize()+5)+Observer.o.getPieceSize()/4);
+
 					 //Cuts out a circle from the present shape
 					 shape = shape.subtract(shape, circle);
 					 
@@ -105,8 +112,8 @@ public class GameGUI extends Application
 		 List<Rectangle> list = new ArrayList<>();
 		 for(int i=0; i<size;i++)
 		 {
-			 RectangleSubclass rect = new RectangleSubclass(80,560, i);
-			 rect.setTranslateX(i*(80+5)+ 80/4);
+			 RectangleSubclass rect = new RectangleSubclass(Observer.o.getPieceSize(),(size+1)*Observer.o.getPieceSize(), i);
+			 rect.setTranslateX(i*(Observer.o.getPieceSize()+5)+ Observer.o.getPieceSize()/4);
 			 rect.setFill(Color.TRANSPARENT);
 			 rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(200, 200, 50,0.3)));
 			 rect.setOnMouseExited(e -> rect.setFill(Color.TRANSPARENT));
