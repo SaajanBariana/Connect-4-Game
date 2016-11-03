@@ -1,13 +1,16 @@
+package ConnectFourGame;
+
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Ellipse;
+
 
 public class BoardPiece {
 
 	int row;
 	int column;
 	Ellipse ellipse;
-	
 	BoardPiece N;
 	BoardPiece NE;
 	BoardPiece E;
