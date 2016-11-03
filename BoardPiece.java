@@ -13,28 +13,19 @@ public class BoardPiece {
 
 	int row;
 	int column;
-	Rectangle rect;
 	Ellipse ellipse;
 
 	public BoardPiece(int row, int column) {
 		this.row = row;
 		this.column = column;
-		rect = new Rectangle();
-		rect.setHeight(40);
-		rect.setWidth(40);
-		rect.setFill(Color.BLUE);
 
-		ellipse = new Ellipse();
-		ellipse.setCenterX(30);
-		ellipse.setCenterY(30);
-		ellipse.setRadiusX(15);
-		ellipse.setRadiusY(15);
+		ellipse = new Ellipse(row, column, 40, 40);
+		//ellipse.setCenterX(row);
+		//ellipse.setCenterY(column);
+		ellipse.setRadiusX(40);
+		ellipse.setRadiusY(40);
 		ellipse.setFill(Color.WHITE);
 
-	}
-
-	public Rectangle getRectangle() {
-		return rect;
 	}
 
 	public Ellipse getEllipse() {
@@ -47,5 +38,13 @@ public class BoardPiece {
 	
 	public void setColor(Paint color){
 		ellipse.setFill(color);
+	}
+	public int getX()
+	{
+		return row;
+	}
+	public int getY()
+	{
+		return column;
 	}
 }

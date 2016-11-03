@@ -2,6 +2,7 @@ package ConnectFourGame;
 
 import java.awt.Color;
 
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -31,7 +32,6 @@ public class Observer {
 	public String[] sendPlayerInfo()
 	{
 		String[] info = new String[2];
-		Player currentPlayer;
 		if (player1.getTurn())
 		{
 			info[0] = player1.getName();
@@ -55,9 +55,9 @@ public class Observer {
 	 * used the get the board pieces and will send them to the GUI to create the game board
 	 * @return
 	 */
-	public Rectangle getPieces(int x, int y)
+	public BoardPiece getPieces(int x, int y)
 	{
-		return new Rectangle(x, y, 100, 100);
+		return new BoardPiece(x, y);
 		//currently a shell method
 	}
 
