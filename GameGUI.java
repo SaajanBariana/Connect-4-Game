@@ -3,6 +3,7 @@ package ConnectFourGame;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,6 +20,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class GameGUI extends Application
@@ -39,9 +41,14 @@ public class GameGUI extends Application
 	 {
 		 int size = 6;
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
+<<<<<<< HEAD
 		 Shape gridShape = makeGrid(size);
 		 root.getChildren().add(gridShape);					//Draws the board
 		 BoardPiece[][] board = setUpPieces(size);
+=======
+		 Shape gridShape = makeGrid(Observer.o.getSize());
+		 BoardPiece[][] board = setUpPieces(Observer.o.getSize());
+>>>>>>> origin/master
 		 for (int i= 0; i < board.length; i++)
 		 {
 			 VBox v = new VBox(5);
@@ -52,6 +59,7 @@ public class GameGUI extends Application
 			 }
 			 root.getChildren().add(v);
 		 }
+<<<<<<< HEAD
 		 TextField text = new TextField();
 		 text.setText("Welcome to Connect 4! Click on any column to begin!");
 		 text.setFont(Font.font ("Verdana", 18));
@@ -62,6 +70,11 @@ public class GameGUI extends Application
 		 //System.out.println(text.getAlignment());
 		 text.setAlignment(Pos.CENTER);
 		 root.getChildren().add(text);
+=======
+		 root.getChildren().addAll(makeColumns(Observer.o.getSize(), board));			//Draws the data in the columns
+		 root.getChildren().add(gridShape);					//Draws the board
+
+>>>>>>> origin/master
 		 return root;
 	 }
 	 
@@ -165,7 +178,16 @@ public class GameGUI extends Application
 				 previous.setColor(Color.WHITE);
 				 previous = current;
 				 i++;
+				 TranslateTransition animation = new TranslateTransition(Duration.seconds(0.25),current.getEllipse());
+				 animation.setFromY(-(Observer.o.getPieceSize()*board.length)+Observer.o.getPieceSize()/4);				 
+				 animation.setToY(0);
+				 animation.play();
+
 			 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 		}
 		
 	 }
