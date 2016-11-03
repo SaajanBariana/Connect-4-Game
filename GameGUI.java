@@ -3,6 +3,7 @@ package ConnectFourGame;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -16,6 +17,7 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class GameGUI extends Application
@@ -34,7 +36,6 @@ public class GameGUI extends Application
 	 {
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
 		 Shape gridShape = makeGrid(Observer.o.getSize());
-		 root.getChildren().add(gridShape);					//Draws the board
 		 BoardPiece[][] board = setUpPieces(Observer.o.getSize());
 		 for (int i= 0; i < board.length; i++)
 		 {
@@ -47,6 +48,8 @@ public class GameGUI extends Application
 			 root.getChildren().add(v);
 		 }
 		 root.getChildren().addAll(makeColumns(Observer.o.getSize(), board));			//Draws the data in the columns
+		 root.getChildren().add(gridShape);					//Draws the board
+
 		 return root;
 	 }
 	 
@@ -143,12 +146,16 @@ public class GameGUI extends Application
 				 {
 					 break;
 				 }
-				 
 				 previous.setColor(Color.WHITE);
 				 previous = current;
 				 i++;
+				 TranslateTransition animation = new TranslateTransition(Duration.seconds(0.25),current.getEllipse());
+				 animation.setFromY(-(Observer.o.getPieceSize()*board.length)+Observer.o.getPieceSize()/4);				 
+				 animation.setToY(0);
+				 animation.play();
+
 			 }
-		
+
 		}
 	 }
 
