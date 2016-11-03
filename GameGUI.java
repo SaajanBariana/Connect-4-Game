@@ -41,14 +41,11 @@ public class GameGUI extends Application
 	 {
 		 int size = 6;
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
-<<<<<<< HEAD
 		 Shape gridShape = makeGrid(size);
 		 root.getChildren().add(gridShape);					//Draws the board
 		 BoardPiece[][] board = setUpPieces(size);
-=======
 		 Shape gridShape = makeGrid(Observer.o.getSize());
 		 BoardPiece[][] board = setUpPieces(Observer.o.getSize());
->>>>>>> origin/master
 		 for (int i= 0; i < board.length; i++)
 		 {
 			 VBox v = new VBox(5);
@@ -59,7 +56,6 @@ public class GameGUI extends Application
 			 }
 			 root.getChildren().add(v);
 		 }
-<<<<<<< HEAD
 		 TextField text = new TextField();
 		 text.setText("Welcome to Connect 4! Click on any column to begin!");
 		 text.setFont(Font.font ("Verdana", 18));
@@ -70,11 +66,9 @@ public class GameGUI extends Application
 		 //System.out.println(text.getAlignment());
 		 text.setAlignment(Pos.CENTER);
 		 root.getChildren().add(text);
-=======
 		 root.getChildren().addAll(makeColumns(Observer.o.getSize(), board));			//Draws the data in the columns
 		 root.getChildren().add(gridShape);					//Draws the board
 
->>>>>>> origin/master
 		 return root;
 	 }
 	 
@@ -184,10 +178,6 @@ public class GameGUI extends Application
 				 animation.play();
 
 			 }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 		}
 		
 	 }
