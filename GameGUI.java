@@ -95,7 +95,7 @@ public class GameGUI extends Application
 		 List<Rectangle> list = new ArrayList<>();
 		 for(int i=0; i<size;i++)
 		 {
-			 RectangleSubclass rect = new RectangleSubclass(Observer.o.getPieceSize(),7*Observer.o.getPieceSize(), i);
+			 RectangleSubclass rect = new RectangleSubclass(Observer.o.getPieceSize(),(size+1)*Observer.o.getPieceSize(), i);
 			 rect.setTranslateX(i*(Observer.o.getPieceSize()+5)+ Observer.o.getPieceSize()/4);
 			 rect.setFill(Color.TRANSPARENT);
 			 rect.setOnMouseEntered(e -> rect.setFill(Color.rgb(200, 200, 50,0.3)));
