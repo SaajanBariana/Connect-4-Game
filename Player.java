@@ -1,5 +1,4 @@
 package ConnectFourGame;
-
 import java.awt.Color;
 
 /**

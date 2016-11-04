@@ -19,11 +19,12 @@ public class BoardPiece {
 	BoardPiece SW;
 	BoardPiece W;
 	BoardPiece NW;
+	boolean GameOver;
 
 	public BoardPiece(int row, int column) {
 		this.row = row;
 		this.column = column;
-
+		GameOver = false;
 		ellipse = new Ellipse(row, column, 40, 40);
 		//ellipse.setCenterX(row);
 		//ellipse.setCenterY(column);
@@ -33,6 +34,14 @@ public class BoardPiece {
 
 	}
 
+	public void setPlayable(boolean b)
+	{
+		GameOver = b;
+	}
+	public boolean getPlayable()
+	{
+		return GameOver;
+	}
 	public Ellipse getEllipse() {
 		return ellipse;
 	}

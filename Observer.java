@@ -21,6 +21,7 @@ public class Observer {
 	private boolean GameOver;
 	private String currentPlayerName;
 	private String currentPlayerColor;
+	boolean restarted;
 	/**
 	 * initializes the Observer class to set up two players and their colors. 
 	 */
@@ -32,8 +33,17 @@ public class Observer {
 		GameOver = false;
 		currentPlayerColor = "";
 		currentPlayerName = "";
+		restarted = false;
 	}
 	
+	public boolean getRestarted()
+	{
+		return restarted;
+	}
+	public void setRestarted(boolean b)
+	{
+		restarted = b;
+	}
 	public void setSize(int size)
 	{
 		this.size = size;

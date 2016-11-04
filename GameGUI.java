@@ -5,10 +5,13 @@ import java.util.List;
 
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -36,10 +39,12 @@ public class GameGUI extends Application
 	 
 	 private Parent createContent()
 	 {
-		 int size = Observer.getObserver().getSize();
+		 Observer o = Observer.getObserver();
+		 int size = o.getSize();
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
 		 Shape gridShape = makeGrid(size);
-
+		 
+		 Button b = new Button("Reset");
 		 
 		 BoardPiece[][] board = setUpPieces(size);
 		 for (int i= 0; i < board.length; i++)
@@ -52,12 +57,27 @@ public class GameGUI extends Application
 			 }
 			 root.getChildren().add(v);
 		 }
+		 boolean GameOver = false;
+		 boolean restarted = false;
 		 TextField text = new TextField();
+		 
+		 b.setOnAction(new EventHandler<ActionEvent>(){
+			 @Override
+			 public void handle(ActionEvent event){
+				 //board = setUpPieces(size);
+				 //newBoard(board, v, root);
+				 reset(board, size, text, GameOver);
+				 //o.setRestarted(true);
+				 //makeColumns(size, board, text);
+			 }
+		 });
 		 text.setText("Welcome to Connect 4! Click on any column to begin!");
 		 text.setFont(Font.font ("Verdana", 18));
-		 text.setStyle("-fx-text-inner-color: blue");
+		 text.setStyle("-fx-text-inner-color: black");
 		 text.setEditable(false);
-		 text.setTranslateY((size) * 41);
+		 text.setTranslateY((size) * 42);
+		 b.setTranslateY(size * 47);
+		 b.setTranslateX(size * 42);
 		 text.setAlignment(Pos.CENTER);
 		 VBox v2 = new VBox(5);
 		 v2.setPadding(new Insets(size * 46, 10, 10, 10));
@@ -65,11 +85,48 @@ public class GameGUI extends Application
 		 root.getChildren().add(gridShape);					//Draws the board
 		 root.getChildren().add(v2);
 		 root.getChildren().addAll(makeColumns(size, board, text));		//Draws the data in the columns
-		 
+		 root.getChildren().add(b);
 		
 		 return root;
 	 }
 	 
+	public void reset(BoardPiece[][] board, int size, TextField text, boolean go)
+	{
+		go = false;
+		Observer o = Observer.getObserver();
+		String name = o.getCurrentPlayerName();
+		o.setGameOver(false);
+		if (name.equals("Player 2"))
+		{
+			o.sendPlayerInfo();
+		}
+		for (int i = 0; i < size; i++)
+		 {
+			 for(int j = 0; j < size; j++)
+			 {
+				 BoardPiece p = board[i][j];
+				 p.setColor(Color.WHITE);
+				 p.setPlayable(true);
+				 board[i][j] = p;
+			 }
+		 }
+		text.setStyle("-fx-text-inner-color: red");
+		text.setText("Game reset. Player 1 start");
+		
+	}
+	 /*public void newBoard(BoardPiece[][] board, VBox v, Pane root)
+	 {
+		 for (int i= 0; i < board.length; i++)
+		 {
+			
+			 v.setPadding(new Insets(20, 10, 10, 20 + (i*85)));
+			 for (int j = 0; j < board[i].length; j++)
+			 {
+				 v.getChildren().add(board[i][j].getEllipse());
+			 }
+			 root.getChildren().add(v);
+		 }
+	 }*/
 	 private Shape makeGrid(int size){
 		 // makes the grid
 			 Shape shape = new Rectangle((size+1)*80,(size+1)*80 + 50);	//Creates the screen of the game
@@ -89,7 +146,7 @@ public class GameGUI extends Application
 					 shape = shape.subtract(shape, circle);
 				 }
 			 }
-			 shape.setFill(Color.GREEN);							//Changes color of shape 
+			 shape.setFill(Color.BLACK);							//Changes color of shape 
 			 return shape;
 	 }
 	 
@@ -102,6 +159,7 @@ public class GameGUI extends Application
 			 for(int j = 0; j < size; j++)
 			 {
 				 BoardPiece p = o.getPieces( 25 + (j* 45), 25 + (i*45));
+				 p.setPlayable(true);
 				 board[i][j] = p;
 			 }
 		 }
@@ -159,13 +217,14 @@ public class GameGUI extends Application
 		 boolean go = false;
 		 BoardPiece previous = board[col][i];
 		 String[] temp = new String[2];
-		 if(previous.getColor().equals(Color.WHITE))
+		 
+		 if(previous.getPlayable())
 		 {
 			 go = true;
+			 
 		 }
 		if (go && !o.getGameOver())
 		{
-			 
 			 String[] playerinfo = o.sendPlayerInfo();
 			 temp = playerinfo;
 			 Color c;
@@ -182,18 +241,21 @@ public class GameGUI extends Application
 			 }
 			 text.setText(message + ", it is your turn to play your piece");
 			 previous.setColor(c);
+			 previous.setPlayable(false);
 			 while (i < board.length-1)
 			 {
 				 BoardPiece current = board[col][i+1];
 				 if(current.getColor().equals(Color.WHITE))
 				 {
 					 current.setColor(c); 
+					 current.setPlayable(false);
 				 }
 				 else
 				 {
 					 break;
 				 }
 				 previous.setColor(Color.WHITE);
+				 previous.setPlayable(true);
 				 previous = current;
 				 i++;
 				TranslateTransition animation = new TranslateTransition(Duration.seconds(0.25), current.getEllipse());
@@ -202,6 +264,12 @@ public class GameGUI extends Application
 				animation.play();
 
 			 }
+			 go = previous.getPlayable();
+		}
+		if (checkTie(board))
+		{
+			text.setStyle("-fx-text-inner-color: black");
+			text.setText("It is a TIE!! Click reset to start over");
 		}
 		if (checkWinner(rect, board, i, temp)) {
 			
@@ -216,10 +284,39 @@ public class GameGUI extends Application
 				text.setStyle("-fx-text-inner-color: red");
 			}
 			o.setGameOver(true);
+			//setGameAsOver(board);
 			text.setText("Congratulations " + playername+ "!!! You Won!!!");
 			
 			
 		}
+	 }
+
+	 public boolean checkTie(BoardPiece[][] board)
+	 {
+		 int size = Observer.getObserver().getSize();
+		 for (int i = 0; i < size; i++)
+		 {
+			 BoardPiece p =  board[i][0];
+			 if (p.getColor().equals(Color.WHITE))
+			 {
+				 return false;
+			 }
+		 }
+		 return true;
+	 }
+	 
+	 public void setGameAsOver(BoardPiece[][] board)
+	 {
+		 int size = Observer.getObserver().getSize();
+		 for (int i = 0; i < size; i++)
+		 {
+			 for(int j = 0; j < size; j++)
+			 {
+				 BoardPiece p =  board[i][j];
+				 p.setPlayable(false);
+				 board[i][j] = p;
+			 }
+		 }
 	 }
 	 private boolean checkWinner(RectangleSubclass rect, BoardPiece[][] board, int row, String[] playerInfo) {
 			boolean foundWinner = false;
