@@ -2,8 +2,6 @@ package ConnectFourGame;
 
 import java.awt.Color;
 
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 
 /**
  * used to connect the classes together.

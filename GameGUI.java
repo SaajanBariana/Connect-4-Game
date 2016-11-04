@@ -2,7 +2,9 @@ package ConnectFourGame;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
+import ConnectFourGame.RectangleSubclass;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -28,9 +31,30 @@ import javafx.util.Duration;
 
 public class GameGUI extends Application
 {	
-	 public static void main(String[] args) {
+ public static void main(String[] args) {
 		 int size = Integer.parseInt(args[0]);
 		 int numberOfPieces = Integer.parseInt(args[1]);
+		 Scanner in = new Scanner(System.in);
+		 while(size <= 0){
+			 System.out.println("Please enter a size greater than 0");
+			 System.out.print("Board size: ");
+			 size = in.nextInt();
+		 }
+		 
+		 while(numberOfPieces <= 0){
+			 System.out.println("Please enter number of pieces greater than 0");
+			 System.out.print("Number of Pieces: ");
+			 numberOfPieces = in.nextInt();
+			 
+		 }
+		 
+		 while(numberOfPieces > size){
+			 System.out.println("Please enter number of pieces less than the size");
+			 System.out.println("Board size: ");
+			 size = in.nextInt();
+			 System.out.println("Number of Pieces");
+			 numberOfPieces = in.nextInt();
+		 }
 		 
 		 Observer.o.setSize(size);
 		 Observer.o.setPiecesNumber(numberOfPieces);
@@ -41,7 +65,20 @@ public class GameGUI extends Application
 	 {
 		 Observer o = Observer.getObserver();
 		 int size = o.getSize();
+		 Pane origin = new Pane();
 		 Pane root = new GridPane();						//Refers to the scene which uses grid
+		 ScrollPane sp = new ScrollPane();
+		sp.setContent(root);
+ if(Observer.o.getSize()>7)
+		 {
+			 sp.setPrefSize(700, 700);			 			 
+		 }
+sp.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		 sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+		 sp.setFitToHeight(true);
+		 sp.setFitToWidth(true);
+		 origin.getChildren().add(sp);
+		 origin.getChildren().add(root);
 		 Shape gridShape = makeGrid(size);
 		 
 		 Button b = new Button("Reset");
@@ -58,7 +95,6 @@ public class GameGUI extends Application
 			 root.getChildren().add(v);
 		 }
 		 boolean GameOver = false;
-		 boolean restarted = false;
 		 TextField text = new TextField();
 		 
 		 b.setOnAction(new EventHandler<ActionEvent>(){
@@ -82,12 +118,10 @@ public class GameGUI extends Application
 		 VBox v2 = new VBox(5);
 		 v2.setPadding(new Insets(size * 46, 10, 10, 10));
 		 v2.getChildren().add(text);
-		 root.getChildren().add(gridShape);					//Draws the board
-		 root.getChildren().add(v2);
+		 root.getChildren().addAll(gridShape,v2,text, b);
 		 root.getChildren().addAll(makeColumns(size, board, text));		//Draws the data in the columns
-		 root.getChildren().add(b);
-		
-		 return root;
+		 origin.autosize();
+		 return origin;	
 	 }
 	 
 	public void reset(BoardPiece[][] board, int size, TextField text, boolean go)
@@ -195,7 +229,6 @@ public class GameGUI extends Application
 	 private List<Rectangle> makeColumns(int size, BoardPiece[][] board, TextField text)
 	 {
 		 List<Rectangle> list = new ArrayList<>();
-		 String currentColor = Observer.getObserver().getCurrentPlayerColor();
 		 for(int i=0; i<size;i++)
 		 {
 			 RectangleSubclass rect = new RectangleSubclass(Observer.o.getPieceSize(),(size+1)*Observer.o.getPieceSize(), i);
@@ -271,7 +304,7 @@ public class GameGUI extends Application
 			text.setStyle("-fx-text-inner-color: black");
 			text.setText("It is a TIE!! Click reset to start over");
 		}
-		if (checkWinner(rect, board, i, temp)) {
+		if (o.getPieceCount() == 1 ||checkWinner(rect, board, i, temp)) {
 			
 			String[] player = Observer.o.sendPlayerInfo();
 			String playername = player[0].substring(0, 8);
@@ -469,6 +502,12 @@ public class GameGUI extends Application
 	 public void start(Stage stage) throws Exception  
 	 {
 		stage.setScene(new Scene(createContent()));
+		stage.setFullScreen(false);
+		stage.setTitle("CONNECT4");
+		if(Observer.o.getSize()<8)
+		{
+			stage.sizeToScene();
+		}
 		stage.show();
 	 }
 }
